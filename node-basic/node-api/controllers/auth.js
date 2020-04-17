@@ -53,3 +53,12 @@ exports.signin = (req, res) =>{
         })
     });  
 };
+
+exports.signout = (req, res) =>{
+    
+    //! clear cookie
+    res.clearCookie('t');
+    return res.json({
+        message: 'sign out success'
+    });
+}

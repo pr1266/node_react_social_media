@@ -6,4 +6,5 @@ const validator = require('../validators/index');
 
 router.post('/signup', validator.userSignupValidator, UserController.signup);
 router.post('/signin', UserController.signin);
+router.get('/signout', UserController.signout);
 module.exports = router;
