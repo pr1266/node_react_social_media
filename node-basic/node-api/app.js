@@ -15,7 +15,13 @@ mongoClient.connect('mongodb://127.0.0.1:27017', { useUnifiedTopology: true }).t
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser());
+
 app.use('/', postRoutes);
 app.use('/', authRoutes);
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).send('invalid token...');
+    }
+});
 const port = process.env.PORT;
 app.listen(port, () => console.log(`a node js server is running on port ${port}`));
