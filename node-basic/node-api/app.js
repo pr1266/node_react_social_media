@@ -6,6 +6,7 @@ const expressValidator = require('express-validator');
 const dotenv = require('dotenv');
 const mongoClient = require('mongoose'), format = require('util').format;
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 dotenv.config()
 
@@ -13,6 +14,7 @@ mongoClient.connect('mongodb://127.0.0.1:27017', { useUnifiedTopology: true }).t
 
 app.use(bodyParser.json());
 app.use(expressValidator());
+app.use(cookieParser());
 app.use('/', postRoutes);
 app.use('/', authRoutes);
 const port = process.env.PORT;
