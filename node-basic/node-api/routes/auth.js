@@ -9,7 +9,4 @@ router.post('/signup', validator.userSignupValidator, UserController.signup);
 router.post('/signin', UserController.signin);
 router.get('/signout', UserController.signout);
 
-//! any routes cotaining user id : our app execute user by id function
-router.param('userId', userById);
-
 module.exports = router;
