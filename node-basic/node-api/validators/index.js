@@ -1,7 +1,6 @@
 
 
 exports.createPostValidator = (req, res, next) => {
-    
     //! inja baraye title
     req.check('title', 'Write a title').notEmpty;
     req.check('title', 'title must be at least 4 characters and 150 characters at most').isLength({

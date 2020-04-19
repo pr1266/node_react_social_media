@@ -1,3 +1,5 @@
+//! Controller
+
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
@@ -40,7 +42,7 @@ exports.signin = (req, res) =>{
         }
 
         //! generate token
-        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET) + '@PR1266';
+        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
         console.log('token : ' + token);
 
         //! persist the token as 't' in cookie with expire date
@@ -64,6 +66,32 @@ exports.signout = (req, res) =>{
     });
 }
 
-exports.requireSignin = expressJwt({
-    secret: process.env.JWT_SECRET,
-});
+exports.requireSignin = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    console.log(authHeader);
+    if (authHeader != null){
+        const token = authHeader && authHeader.split(' ')[1];
+    
+        if(token == null) return res.status(401);
+
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) =>{
+            if(err) return res.status(403);
+            
+            user_ = User.findOne({
+                '_id' : user._id
+            }).then((user) =>{
+                req.user = user;
+                console.log(user.email);
+                next();
+            }).catch((err) => res.status(401).json({
+                error: 'invalid token'
+            }));
+        });
+        
+    }else{
+        return res.status(401).json({
+            error: 'un authorized'
+        });
+        next();
+    }
+}
