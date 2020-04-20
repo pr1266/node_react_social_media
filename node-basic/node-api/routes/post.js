@@ -8,7 +8,7 @@ const UserController = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
 router.get('/', UserController.requireSignin, PostController.getPosts);
-router.post('/createpost', UserController.requireSignin, validator.createPostValidator, PostController.createPost);
+router.post('/post/new/:userId', UserController.requireSignin, PostController.createPost, validator.createPostValidator);
 // UserController.requireSignin
 router.param('userId', userById);
 

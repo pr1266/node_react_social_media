@@ -27,6 +27,8 @@ const createPost = (req, res) =>{
         }
 
         let post = new Post(fields);
+        req.profile.salt = undefined;
+        req.profile.hashed_password = undefined;
         post.user = req.profile;
         if(files.photo){
             post.photo.data = fs.readFileSync(files.photo.path);
