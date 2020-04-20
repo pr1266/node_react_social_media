@@ -3,6 +3,7 @@
 const Post = require('../models/post');
 const formidable = require('formidable');
 const fs = require('fs');
+const _ = require('lodash');
 
 const postById = (req, res, next, id) =>{
     console.log('im here');
@@ -75,8 +76,6 @@ const postByUser = (req, res) =>{
 const isPoster = (req, res, next) =>{
     let isPoster = req.post.user._id.toString == req.user._id.toString;
 
-    // console.log('req.post : ' + req.post);
-    // console.log('req.user : ' + req.user);
     console.log('req.post.user._id : ' + req.post.user._id);
     console.log('req.user._id : ' + req.user._id);
 
@@ -85,6 +84,15 @@ const isPoster = (req, res, next) =>{
     }
 
     next();
+}
+
+const updatePost = (req, res, next) =>{
+    let post = req.post;
+    post = _.extend(post, req.body);
+    post.save(err => {
+        if(err) return res.status(400).json({error: err});
+        res.json(post);
+    });
 }
 
 const deletePost = (req, res) =>{
@@ -97,5 +105,5 @@ const deletePost = (req, res) =>{
 }
 
 module.exports = {
-    getPosts, createPost, postByUser, postById, isPoster, deletePost
+    getPosts, createPost, postByUser, postById, isPoster, deletePost, updatePost
 };
