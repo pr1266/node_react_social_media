@@ -5,12 +5,15 @@ const formidable = require('formidable');
 const fs = require('fs');
 
 const postById = (req, res, next, id) =>{
+    console.log('im here');
     Post.findById(id)
     .populate('user', '_id name')
     .exec((err, post) =>{
         if(err || !post) return res.status(400).json({error: err});
 
         req.post = post;
+
+        console.log('post of request : ' + post);
         next();
     });
 }
@@ -69,6 +72,30 @@ const postByUser = (req, res) =>{
     });
 }
 
+const isPoster = (req, res, next) =>{
+    let isPoster = req.post.user._id.toString == req.user._id.toString;
+
+    // console.log('req.post : ' + req.post);
+    // console.log('req.user : ' + req.user);
+    console.log('req.post.user._id : ' + req.post.user._id);
+    console.log('req.user._id : ' + req.user._id);
+
+    if(!isPoster){
+        return res.status(403).json({error: 'Forbiden for you'});
+    }
+
+    next();
+}
+
+const deletePost = (req, res) =>{
+    let post = req.post;
+    post.remove((err, post)=>{
+        if(err) return res.status(400).json({error: err});
+
+        res.status(204).json({message: 'post deleted successfully'});
+    });
+}
+
 module.exports = {
-    getPosts, createPost, postByUser, postById
+    getPosts, createPost, postByUser, postById, isPoster, deletePost
 };

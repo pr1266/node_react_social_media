@@ -81,13 +81,12 @@ exports.requireSignin = (req, res, next) => {
                 '_id' : user._id
             }).then((user) =>{
                 req.user = user;
-                console.log(user.email);
+                console.log(req.user._id);
                 next();
             }).catch((err) => res.status(401).json({
                 error: 'invalid token'
             }));
         });
-        
     }else{
         return res.status(401).json({
             error: 'un authorized'
