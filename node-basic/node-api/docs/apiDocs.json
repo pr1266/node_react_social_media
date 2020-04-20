@@ -1,0 +1,15 @@
+{
+    "NOTICE": "a node js server created by back-end god --pr1266--",
+    "[GET] /post": "get all posts",
+    "[POST] /post/new/:userId": "create new post",
+    "[DELETE] /post/:postId": "delete a post (delete request)",
+    "[PUT] /post/:postId": "update a post (put request)",
+    "[GET] /post/:userId": "get a specific users posts",
+    "[GET] /user": "get all users information",
+    "[GET] /user/:userId": "get a specific user information",
+    "[DELETE] /user/:userId": "delete a specific user information",
+    "[PUT] /user/:userId": "update a specific user information",
+    "[POST] /signin": "sign in",
+    "[POST] /signup": "sign up",
+    "[GET] /signout": "sign out"
+}
