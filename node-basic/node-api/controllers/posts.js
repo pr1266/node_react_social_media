@@ -5,7 +5,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 
 const getPosts = (req, res) =>{
-    const posts = Post.find().then(
+    const posts = Post.find().populate("user", "_id name").then(
         posts => {
             res.status(200).json({
                 posts: posts
@@ -42,10 +42,22 @@ const createPost = (req, res) =>{
                 });
             }
             res.json(result);
-        });
+        }); 
+    });
+}
+
+
+const postByUser = (req, res) =>{
+    Post.find({user: req.profile._id})
+    .populate('user', 'id_ name')
+    .sort('_created')
+    .exec((err, posts) =>{
+        if(err) return res.status(400).json({error: err});
+
+        res.json(posts);
     });
 }
 
 module.exports = {
-    getPosts, createPost
+    getPosts, createPost, postByUser
 };

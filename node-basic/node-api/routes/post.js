@@ -9,7 +9,7 @@ const { userById } = require('../controllers/user');
 
 router.get('/', UserController.requireSignin, PostController.getPosts);
 router.post('/post/new/:userId', UserController.requireSignin, PostController.createPost, validator.createPostValidator);
-// UserController.requireSignin
+router.get('/post/:userId', UserController.requireSignin, PostController.postByUser);
 router.param('userId', userById);
 
 module.exports = router;
