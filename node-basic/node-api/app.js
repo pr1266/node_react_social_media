@@ -9,18 +9,19 @@ const mongoClient = require('mongoose'), format = require('util').format;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
+const cors = require('cors');
 
 dotenv.config();
 
 mongoClient.connect('mongodb://127.0.0.1:27017', { useUnifiedTopology: true }).then(() => console.log('mongo db connected')).catch(() => console.log('fff'))
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser());
 app.use('/', userRoutes);
 app.use('/', postRoutes);
 app.use('/', authRoutes);
-
 
 app.get('/', (req, res) =>{
     fs.readFile('./docs/apiDocs.json', (err, data) =>{
