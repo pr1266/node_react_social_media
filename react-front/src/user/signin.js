@@ -8,7 +8,8 @@ class Signin extends Component {
             email: "",
             password: "",
             error: "",
-            redirectToReferer: false
+            redirectToReferer: false,
+            loading: false
         }
     }
 
@@ -33,6 +34,9 @@ class Signin extends Component {
     //! handle submit event
     clickSubmit = event =>{
         event.preventDefault();
+        this.setState({
+            loading: true
+        });
         const {email, password} = this.state;
         const user = {
             email,
@@ -43,7 +47,7 @@ class Signin extends Component {
         .then(data => {
             if(data.error){
                 this.setState({
-                    error: data.error
+                    error: data.error, loading: false
                 });
             } else{
                 //! khob inja bayad redirect konim
@@ -94,7 +98,7 @@ class Signin extends Component {
     )
 
     render(){
-        const {email, password, error, redirectToReferer} = this.state;
+        const {email, password, error, redirectToReferer, loading} = this.state;
         
         if(redirectToReferer){
             return <Redirect to='/' />
@@ -104,7 +108,9 @@ class Signin extends Component {
                 <h2 className="mt-5 mb-5">Sign in</h2>
                 
                 <div className="alert alert-danger" style={{display: error ? "" : "none"}}>{error}</div>
-            
+                {loading ? (<div className="jumbotron text-center">
+                    <h1>loading...</h1>
+                </div>) : ("")}
                 {this.signinForm(email, password)}
             
             </div>
