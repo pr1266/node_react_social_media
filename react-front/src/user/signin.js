@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
+import {signin, authenticate} from '../auth';
 
 class Signin extends Component {
     constructor(){
@@ -14,12 +15,7 @@ class Signin extends Component {
     }
 
 
-    authenticate(jwt, next){
-        if(typeof window !== "undefined"){
-            localStorage.setItem('token', JSON.stringify(jwt));
-            next();
-        }
-    }
+    
 
     //! handle change of text inputs
     handleChange = (_name) => (event) => {
@@ -43,7 +39,7 @@ class Signin extends Component {
             password
         }
         
-        this.signin(user)
+        signin(user)
         .then(data => {
             if(data.error){
                 this.setState({
@@ -63,19 +59,7 @@ class Signin extends Component {
         });
     }
 
-    signin = (user) =>{
-        //! using fetch:
-        return fetch("http://localhost:8080/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-        .then(response => response.json())
-        .catch(err => console.log(err.body));
-    }
+    
 
     signinForm = (email, password) => (
         <form>

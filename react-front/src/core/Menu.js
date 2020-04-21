@@ -1,37 +1,9 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
-
+import {isAuthenticated, signout} from '../auth'
 const isActive = (history, path) => {
     if(history.location.pathname === path) return {color: "#ff9900"};
     else return {color: "#ffffff"};
-}
-
-export const signout = (next) =>{
-    if(typeof window !== "undefined"){
-        localStorage.removeItem('token');
-        next();
-        fetch('http://localhost:8080/signout', {
-            method: 'GET'
-        })
-        .then(response => {
-            console.log('sign out ', response);
-            return response.json()
-        })
-        .catch(error => console.log(error));
-    }
-}
-
-const isAuthenticated = () =>{
-    if(typeof window == 'undefined'){
-        return false
-    }
-
-    if(localStorage.getItem('token')){
-        return JSON.parse(localStorage.getItem('token'));
-    }
-    else{
-        return false;
-    }
 }
 
 const Menu = ({history}) => (
@@ -61,7 +33,7 @@ const Menu = ({history}) => (
                     </li>
                 
                     <li className='nav-item'>
-                        <a className='nav-link' onClick ={()=>signout(()=>history.push('/'))} style={isActive(history, '/'), {cursor: 'pointer', color: "#fff"}}>Signout</a>
+                        <a className='nav-link' onClick ={()=>signout(()=>history.push('/signin'))} style={isActive(history, '/'), {cursor: 'pointer', color: "#fff"}}>Signout</a>
                     </li>
                 
 
