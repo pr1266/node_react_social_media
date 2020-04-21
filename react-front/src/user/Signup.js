@@ -21,6 +21,28 @@ class Signup extends Component {
     }
 
 
+    //! handle submit event
+    clickSubmit = event =>{
+        event.preventDefault();
+        const {name, email, password} = this.state;
+        const user = {
+            name,
+            email,
+            password
+        }
+        // console.log(user);
+        fetch("http://localhost:8080/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .catch(err => console.log(err.body));
+    }
+
     render(){
         const {name, email, password} = this.state;
         return(
@@ -44,7 +66,7 @@ class Signup extends Component {
                     </div>
 
                     <div className="form-group">
-                    <button className="btn btn-raised btn-primary">
+                    <button onClick = {this.clickSubmit} className="btn btn-raised btn-primary">
                         Submit
                     </button>
                     </div>
