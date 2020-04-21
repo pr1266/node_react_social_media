@@ -8,7 +8,8 @@ class Signup extends Component {
             name: "",
             email: "",
             password: "",
-            error: ""
+            error: "",
+            open: false
         }
     }
 
@@ -16,6 +17,7 @@ class Signup extends Component {
     handleChange = (_name) => (event) => {
         console.log(this.state);
         this.setState({
+            error: "",
             [_name]: event.target.value
         });
     }
@@ -30,8 +32,28 @@ class Signup extends Component {
             email,
             password
         }
-        // console.log(user);
-        fetch("http://localhost:8080/signup", {
+        
+        this.signup(user)
+        .then(data => {
+            if(data.error){
+                this.setState({
+                    error: data.error
+                });
+            } else{
+                this.setState({
+                    name: "",
+                    email: "",
+                    password: "",
+                    error: "",
+                    open: true
+                });
+            }
+        });
+    }
+
+    signup = (user) =>{
+        //! using fetch:
+        return fetch("http://localhost:8080/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -44,11 +66,13 @@ class Signup extends Component {
     }
 
     render(){
-        const {name, email, password} = this.state;
+        const {name, email, password, error, open} = this.state;
         return(
             <div className="container">
                 <h2 className="mt-5 mb-5">Sign up</h2>
                 
+                <div className="alert alert-primary" style={{display: error ? "" : "none"}}>{error}</div>
+                <div className="alert alert-info" style={{display: open ? "" : "none"}}>sign up successfull</div>
                 <form>
                     <div className="form-group">
                         <label className="text-muted">Name</label>
