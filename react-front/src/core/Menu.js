@@ -36,10 +36,7 @@ const Menu = ({history}) => (
                         <a className='nav-link' onClick ={()=>signout(()=>history.push('/signin'))} style={isActive(history, '/'), {cursor: 'pointer', color: "#fff"}}>Signout</a>
                     </li>
                     <li className='nav-item'>
-                        <a className='nav-link'>
-                        <Link to = {`/user/${isAuthenticated().user._id}`} style={{color: 'white'}}>{ `${isAuthenticated().user.name}'s profile`}</Link>
-                        
-                        </a>
+                        <Link className = "nav-link" to = {`/user/${isAuthenticated().user._id}`} style={{color: 'white'}}>{ `${isAuthenticated().user.name}'s profile`}</Link>
                     </li>
             
                 </>
