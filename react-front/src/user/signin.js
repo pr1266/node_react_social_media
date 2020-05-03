@@ -49,7 +49,7 @@ class Signin extends Component {
                 //! khob inja bayad redirect konim
                 //! vali aval authenticate mikonim
 
-                this.authenticate(data, ()=>{
+                authenticate(data, ()=>{
                     this.setState({
                         redirectToReferer: true
                     })
